@@ -1,3 +1,5 @@
+# 确保插入的中文是utf8
+set names utf8;
 # Provider表  （资源提供商帐号， 如Linode, 阿里云, 万网等）
 CREATE TABLE tbl_provider
 (

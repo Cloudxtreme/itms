@@ -1,15 +1,13 @@
 <?php
 $this->breadcrumbs=array(
-	'Providers',
+	'提供商',
 );
 
 $this->menu=array(
-array('label'=>'Create Provider','url'=>array('create')),
-array('label'=>'Manage Provider','url'=>array('admin')),
+array('label'=>'新增提供商','url'=>array('create')),
+array('label'=>'管理提供商','url'=>array('admin')),
 );
 ?>
-
-<h1>Providers</h1>
 
 <?php $this->widget('bootstrap.widgets.TbListView',array(
 'dataProvider'=>$dataProvider,

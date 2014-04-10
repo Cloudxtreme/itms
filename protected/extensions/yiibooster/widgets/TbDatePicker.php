@@ -103,7 +103,8 @@ class TbDatePicker extends CInputWidget
 		if (isset($this->options['language']) && $this->options['language'] != 'en')
 		{
 			$filename = '/bootstrap-datepicker/js/locales/bootstrap-datepicker.' . $this->options['language'] . '.js';
-
+			// debug...
+			// Yii::log( 'datepicker local js path is'.Yii::getPathOfAlias('bootstrap.assets') . $filename, 'warning' );
 			if (file_exists(Yii::getPathOfAlias('bootstrap.assets') . $filename))
 			{
 				if ($booster->enableCdn)

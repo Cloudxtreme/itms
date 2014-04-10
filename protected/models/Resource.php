@@ -28,6 +28,19 @@
  */
 class Resource extends CActiveRecord
 {
+
+	protected function beforeSave()
+	{
+		if(parent::beforeSave())
+    		{
+		//	Yii::log('create='.$this->create_time.' expire='.$this->expire_time, 'warning');
+			return true;
+		}
+		else
+		{	
+			return false;
+		}
+	}
 	/**
 	 * @return string the associated database table name
 	 */
@@ -45,13 +58,14 @@ class Resource extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('type, ip, login_user, login_pass, cores, memory, disk, data, bandwidth_type, bandwidth, owner_id, provider_id', 'required'),
-			array('type, cores, memory, disk, data, bandwidth_type, bandwidth, create_time, expire_time, owner_id, provider_id', 'numerical', 'integerOnly'=>true),
+			array('type, cores, memory, disk, data, bandwidth_type, bandwidth, owner_id, provider_id', 'numerical', 'integerOnly'=>true),
 			array('ip', 'length', 'max'=>15),
+			array('ip', 'match', 'pattern'=>'/^(\d)+\.(\d)+\.(\d)+\.(\d)+$/', 'message'=>'必须是合法的IP地址.'),
 			array('location, login_user, login_pass', 'length', 'max'=>128),
-			array('memo', 'safe'),
+			array('create_time, expire_time,memo', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, type, ip, location, login_user, login_pass, cores, memory, disk, data, bandwidth_type, bandwidth, create_time, expire_time, owner_id, provider_id, memo', 'safe', 'on'=>'search'),
+			array('type, ip, location, login_user, login_pass, cores, memory, disk, data, bandwidth_type, bandwidth, create_time, expire_time, owner_id, provider_id, memo', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,22 +89,22 @@ class Resource extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'type' => 'Type',
-			'ip' => 'Ip',
-			'location' => 'Location',
-			'login_user' => 'Login User',
-			'login_pass' => 'Login Pass',
-			'cores' => 'Cores',
-			'memory' => 'Memory',
-			'disk' => 'Disk',
-			'data' => 'Data',
-			'bandwidth_type' => 'Bandwidth Type',
-			'bandwidth' => 'Bandwidth',
-			'create_time' => 'Create Time',
-			'expire_time' => 'Expire Time',
-			'owner_id' => 'Owner',
-			'provider_id' => 'Provider',
-			'memo' => 'Memo',
+			'type' => '类型',
+			'ip' => 'IP地址',
+			'location' => '位置',
+			'login_user' => '登录用户名',
+			'login_pass' => '登录密码',
+			'cores' => '处理器核数',
+			'memory' => '内存(M)',
+			'disk' => '系统盘大小(G)',
+			'data' => '数据盘大小(G)',
+			'bandwidth_type' => '带宽类型',
+			'bandwidth' => '带宽大小(M/G)',
+			'create_time' => '创建时间',
+			'expire_time' => '过期时间',
+			'owner_id' => '所有者',
+			'provider_id' => '提供商',
+			'memo' => '备注信息',
 		);
 	}
 
@@ -112,7 +126,7 @@ class Resource extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
+		// $criteria->compare('id',$this->id);
 		$criteria->compare('type',$this->type);
 		$criteria->compare('ip',$this->ip,true);
 		$criteria->compare('location',$this->location,true);

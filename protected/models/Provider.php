@@ -66,15 +66,15 @@ class Provider extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'login_user' => 'Login User',
-			'login_pass' => 'Login Pass',
-			'login_url' => 'Login Url',
-			'admin_user' => 'Admin User',
-			'admin_pass' => 'Admin Pass',
-			'admin_url' => 'Admin Url',
-			'payment_type' => 'Payment Type',
-			'payment_info' => 'Payment Info',
+			'name' => '名称',
+			'login_user' => '注册用户名',
+			'login_pass' => '登录口令',
+			'login_url' => '登录地址(URL)',
+			'admin_user' => '管理用户名',
+			'admin_pass' => '管理口令',
+			'admin_url' => '管理地址(URL)',
+			'payment_type' => '付费类型',
+			'payment_info' => '付费信息',
 		);
 	}
 
@@ -122,4 +122,14 @@ class Provider extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	// 返回提供商列表，用于提供商下拉框
+        public static function all()
+        {
+                $ul = array();
+                $recs = self::model()->findAll();
+                foreach($recs as $rec)
+                        $ul[$rec->id] = $rec->name . "(". $rec->login_user. ")";
+                return $ul;
+        }
 }

@@ -105,4 +105,14 @@ class User extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	// 返回用户列表，用于所有者下拉框
+	public static function all()
+	{
+		$ul = array();
+		$recs = self::model()->findAll();
+		foreach($recs as $rec)
+			$ul[$rec->id] = $rec->username;
+		return $ul;
+	}
 }

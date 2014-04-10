@@ -1,6 +1,6 @@
 <?php /* @var $this Controller */ ?>
 <?php $this->beginContent('//layouts/main'); ?>
-<div class="span3">
+<div class="span2">
 <div class="well sidebar-nav">
 <?php
 $this->widget(

@@ -1,15 +1,13 @@
 <?php
 $this->breadcrumbs=array(
-	'Providers'=>array('index'),
-	'Create',
+	'提供商'=>array('index'),
+	'新增提供商',
 );
 
 $this->menu=array(
-array('label'=>'List Provider','url'=>array('index')),
-array('label'=>'Manage Provider','url'=>array('admin')),
+array('label'=>'提供商列表','url'=>array('index')),
+array('label'=>'管理提供商','url'=>array('admin')),
 );
 ?>
-
-<h1>Create Provider</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
