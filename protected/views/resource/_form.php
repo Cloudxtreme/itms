@@ -28,7 +28,8 @@
 	<?php echo $form->textFieldRow($model,'disk',array('class'=>'span5')); ?>
 
 	<?php echo $form->textFieldRow($model,'data',array('class'=>'span5')); ?>
-
+	<?php echo $form->dropdownListRow($model,'os',Lookup::items('ResourceOS'), array('class'=>'span5')); ?>
+	<?php echo $form->textFieldRow($model,'osver',array('class'=>'span5')); ?>
 	<?php echo $form->dropdownListRow($model,'bandwidth_type',Lookup::items('ResourceBandwidthType'), array('class'=>'span5')); ?>
 
 	<?php echo $form->textFieldRow($model,'bandwidth',array('class'=>'span5')); ?>

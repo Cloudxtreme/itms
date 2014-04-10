@@ -57,8 +57,8 @@ class Resource extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type, ip, login_user, login_pass, cores, memory, disk, data, bandwidth_type, bandwidth, owner_id, provider_id', 'required'),
-			array('type, cores, memory, disk, data, bandwidth_type, bandwidth, owner_id, provider_id', 'numerical', 'integerOnly'=>true),
+			array('type, ip, login_user, login_pass, cores, memory, disk, data, os, osver, bandwidth_type, bandwidth, owner_id, provider_id', 'required'),
+			array('type, cores, memory, disk, data, os, bandwidth_type, bandwidth, owner_id, provider_id', 'numerical', 'integerOnly'=>true),
 			array('ip', 'length', 'max'=>15),
 			array('ip', 'match', 'pattern'=>'/^(\d)+\.(\d)+\.(\d)+\.(\d)+$/', 'message'=>'必须是合法的IP地址.'),
 			array('location, login_user, login_pass', 'length', 'max'=>128),
@@ -98,6 +98,8 @@ class Resource extends CActiveRecord
 			'memory' => '内存(M)',
 			'disk' => '系统盘大小(G)',
 			'data' => '数据盘大小(G)',
+			'os' => '操作系统类型',
+			'osver' => '操作系统版本',
 			'bandwidth_type' => '带宽类型',
 			'bandwidth' => '带宽大小(M/G)',
 			'create_time' => '创建时间',
