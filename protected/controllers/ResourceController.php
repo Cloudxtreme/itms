@@ -31,7 +31,7 @@ array('allow',  // allow all users to perform 'index' and 'view' actions
 'users'=>array('*'),
 ),
 array('allow', // allow authenticated user to perform 'create' and 'update' actions
-'actions'=>array('create','update'),
+'actions'=>array('create','update','import'),
 'users'=>array('@'),
 ),
 array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -147,6 +147,40 @@ $this->render('admin',array(
 'model'=>$model,
 ));
 }
+
+/**
+* Import CSV file
+*/
+public function actionImport()
+{
+$model=new ImportForm;
+          
+// if it is ajax validation request
+if(isset($_POST['ajax']) && $_POST['ajax']==='resource-import-form')
+{               
+echo CActiveForm::validate($model);
+Yii::app()->end();
+}
+// collect user input data
+if(isset($_POST['ImportForm']))
+{
+	$model->attributes=$_POST['ImportForm'];
+        // validate user input and redirect to the previous page if valid
+        if($model->validate())
+	{
+		list($ret, $msg) = $model->import();
+		if($ret)
+			Yii::app()->user->setFlash('success', $msg);
+		else
+			Yii::app()->user->setFlash('error', $msg);
+
+		$this->refresh();
+//		$this->redirect(Yii::app()->user->returnUrl);
+	}
+}       
+// display the login form
+$this->render('import',array('model'=>$model));
+}                       
 
 /**
 * Returns the data model based on the primary key given in the GET variable.

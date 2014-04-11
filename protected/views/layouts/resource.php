@@ -16,6 +16,9 @@ array(
 	array('label'=>'新增资源','url'=>array('create'),
 	'active'=>CStringUtil::endWith( Yii::app()->controller->route, '/create')
 	),
+        array('label'=>'导入CSV文件','url'=>array('import'),
+        'active'=>CStringUtil::endWith( Yii::app()->controller->route, '/import')
+        ),
 ),
 
 ));
