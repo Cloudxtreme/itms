@@ -40,15 +40,20 @@ class TbDataColumn extends CDataColumn
 
 			if ($sort->resolveAttribute($this->name) !== false){
                             if($sort->getDirection($this->name) === CSort::SORT_ASC){
-                                $label .= ' <span class="'.($booster->fontAwesomeCss ? 'fa fa-sort-asc' : 'icon-chevron-down').'"></span>';
+                                $label .= ' <span class="'.($booster->fontAwesomeCss ? 'fa fa-sort-asc' : 'icon-chevron-up').'"></span>';
                             } elseif($sort->getDirection($this->name) === CSort::SORT_DESC){
-                                $label .= ' <span class="'.($booster->fontAwesomeCss ? 'fa fa-sort-desc' : 'icon-chevron-up').'"></span>';
+                                $label .= ' <span class="'.($booster->fontAwesomeCss ? 'fa fa-sort-desc' : 'icon-chevron-down').'"></span>';
                             } else {
                                 $label .= ' ';
                             }
                         }
 
-			echo $sort->link($this->name, $label, array('class' => 'sort-link'));
+			// Patch: to display correct sort direction
+
+			$sortcode = $sort->link($this->name, $label, array('class' => 'sort-link'));
+			$sortcode = str_replace('asc', 'desc', $sortcode, $i);
+			if( $i === 0) $sortcode = str_replace('desc','asc',$sortcode);
+			echo $sortcode;
 		} else {
 			if ($this->name !== null && $this->header === null) {
 				if ($this->grid->dataProvider instanceof CActiveDataProvider) {

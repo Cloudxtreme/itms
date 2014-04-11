@@ -8,40 +8,19 @@ $this->menu=array(
 array('label'=>'List Resource','url'=>array('index')),
 array('label'=>'Create Resource','url'=>array('create')),
 );
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-$('.search-form').toggle();
-return false;
-});
-$('.search-form form').submit(function(){
-$.fn.yiiGridView.update('resource-grid', {
-data: $(this).serialize()
-});
-return false;
-});
-");
 ?>
-
-<h1>Manage Resources</h1>
-
-<p>
-	You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>
-		&lt;&gt;</b>
-	or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
-
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn')); ?>
-<div class="search-form" style="display:none">
-	<?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
-</div><!-- search-form -->
-
-<?php $this->widget('bootstrap.widgets.TbGridView',array(
+<?php $this->widget('bootstrap.widgets.TbExtendedGridView',array(
+'type' => 'striped bordered',
 'id'=>'resource-grid',
+'template' => "{items}\n{pager}",
 'dataProvider'=>$model->search(),
 'filter'=>$model,
+'bulkActions'=>array(
+	'actionButtons' => array(
+		array('id'=>'mod_expire','buttonType' => 'button', 'type' => 'primary', 'size' => 'small', 'label'=>'批量修改过期时间', 'click'=>'js:function(values){console.log(values);}'),
+	),
+	'checkBoxColumnConfig' => array( 'name'=>'id'),
+),
 'columns'=>array(
 		'id',
 		'type',
@@ -49,15 +28,16 @@ return false;
 		'location',
 		'login_user',
 		'login_pass',
-		/*
+		
 		'cores',
 		'memory',
-		'disk',
+		/* 'disk',
 		'data',
 		'bandwidth_type',
 		'bandwidth',
 		'create_time',
 		'expire_time',
+		
 		'owner_id',
 		'provider_id',
 		'memo',

@@ -1,3 +1,4 @@
+<?php if( !Yii::app()->user->hasFlash('success') && !Yii::app()->user->hasFlash('error')): ?>
 <?php 
 $this->beginWidget(
     'bootstrap.widgets.TbHeroUnit',
@@ -5,21 +6,21 @@ $this->beginWidget(
         'heading' => '批量导入资源信息',
     )
 ); ?>
-<p>
-快速从文本文件中批量导入资源信息，如果文本中任何一条记录出现格式错误，将不会发生任何数据导入。点击按钮下载CSV样本文件。
+<p><br>
+快速从文本文件(.CSV格式，以逗号分隔字段)中批量导入资源信息。所导入的资源必须是归属同一所有者和同一提供商。如果文本中任何一条记录出现格式错误，将不会发生任何数据导入。点击按钮下载CSV样本文件。
 </p>
 <p>
 <?php $this->widget(
             'bootstrap.widgets.TbButton',
             array(
                 'type' => 'info',
-                'size' => 'large',
+//                'size' => 'large',
 		'url' => './sample/sample.csv',
                 'label' => '下载CSV样本',
             )
 ); ?></p>
- 
 <?php $this->endWidget(); ?>
+<?php endif; ?>
 
 <?php
 $this->widget('bootstrap.widgets.TbAlert', array(
