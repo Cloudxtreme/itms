@@ -23,11 +23,11 @@ array('label'=>'Create Resource','url'=>array('create')),
 ),
 'columns'=>array(
 		'id',
-		'type',
+		array('name'=>'type','value'=>'Lookup::item("ResourceType",$data->type)','filter'=>Lookup::items('ResourceType')),
 		'ip',
 		'location',
 		'login_user',
-		'login_pass',
+		array('name'=>'login_pass', 'value'=>'"*****"', 'filter'=>false),
 		
 		'cores',
 		'memory',
@@ -47,3 +47,18 @@ array(
 ),
 ),
 )); ?>
+<!--
+<script type="text/javascript">
+jQuery(function($) {
+ $(document).on('mouseenter', '[rel=tooltip]', function () {
+        $(this).tooltip({
+            container: 'body',
+            trigger: 'manual'
+        }).tooltip('show');
+    });
+    $(document).on('mouseleave', '[rel=tooltip]', function () {
+        $(this).tooltip('hide');
+    });
+});
+</script>
+-->

@@ -11,8 +11,8 @@ array(
 'type'=>'pills',
 'stacked'=>true,
 'items'=> array(
-	array('label'=>'资源列表','url'=>array('index'),
-    'active'=>CStringUtil::endWith( Yii::app()->controller->route, '/index')
+	array('label'=>'资源列表','url'=>array('admin'),
+    'active'=>CStringUtil::endWith( Yii::app()->controller->route, '/admin')
     ),
 	array('label'=>'新增资源','url'=>array('create'),
 	'active'=>CStringUtil::endWith( Yii::app()->controller->route, '/create')

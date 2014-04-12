@@ -8,6 +8,8 @@ class ProviderController extends Controller
 */
 public $layout='//layouts/column2';
 
+public $defaultAction='admin';
+
 /**
 * @return array action filters
 */

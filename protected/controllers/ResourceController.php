@@ -8,6 +8,8 @@ class ResourceController extends Controller
 */
 public $layout='//layouts/resource';
 
+public $defaultAction='admin';
+
 /**
 * @return array action filters
 */

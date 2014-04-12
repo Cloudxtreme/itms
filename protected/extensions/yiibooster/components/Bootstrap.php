@@ -836,7 +836,13 @@ class Bootstrap extends CApplicationComponent
 		if (empty($options['selector']))
 			$options['selector'] = $this->tooltipSelector;
 
-		$this->registerPlugin(self::PLUGIN_TOOLTIP, $selector, $options);
+	//	$this->registerPlugin(self::PLUGIN_TOOLTIP, $selector, $options);
+		// fix the bug that tooltip does not work in IE7/8
+		$this->assetsRegistry->registerScript(
+            $this->getUniqueScriptId(),
+            "$(document).on('mouseenter','[data-toggle=tooltip]',function(){ $(this).tooltip({container: 'body',trigger: 'manual'}).tooltip('show'); }); $(document).on('mouseleave', '[data-toggle=tooltip]', function (){ $(this).tooltip('hide'); });"
+        );
+
 	}
 
 	/**
