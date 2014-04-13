@@ -7,7 +7,9 @@
  * @copyright Copyright &copy; Vitaliy Potapov 2012
  * @version 1.1.0
  */
-
+function an_concat($k, $v) {
+	return $k . '-' . $v;
+}
 /**
  *## EditableField widget makes editable single attribute of model.
  *
@@ -560,6 +562,7 @@ class TbEditableField extends CWidget
 		$this->packageRegistry->registerPackage('x-editable');
 
 		if ($this->type == 'date' || $this->type == 'combodate') {
+//			$this->packageRegistry->registerPackage('datepicker');
 			/** @var $widget TbDatePicker */
 			$widget = Yii::app()->widgetFactory->createWidget(
 				$this->getOwner(),
@@ -636,10 +639,7 @@ class TbEditableField extends CWidget
 			if (is_array($pk)) {
 				$pk = join(
 					'_',
-					array_map(
-						function ($k, $v) {
-							return $k . '-' . $v;
-						},
+					array_map('an_concat',
 						array_keys($pk),
 						$pk
 					)

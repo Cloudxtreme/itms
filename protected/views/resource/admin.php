@@ -26,6 +26,7 @@ array('label'=>'Create Resource','url'=>array('create')),
 function openViewLoginForm(id, ip) {
 	$('#vlfIP').text(ip);
 	$('#vlfID').val(id);
+	$('#vlfPass').val('');
 	$('#vlfResult').css('display','none');
 	$('#viewLoginForm').modal('show');
 	$('#vlfPass').focus();
@@ -60,7 +61,12 @@ function postViewLoginForm() {
 		array('header'=>'配置','value'=>'"{$data->cores}核,{$data->memory}M内存,{$data->disk}G系统盘,{$data->data}G数据盘". Lookup::item("ResourceOS",$data->os)." ".$data->osver','filter'=>false),	
 		array('header'=>'带宽','value'=>'Lookup::item("ResourceBandwidthType",$data->bandwidth_type)." {$data->bandwidth}M"', 'filter'=>false),
 		array('name'=>'create_time','value'=>'substr($data->create_time,0,10)'),
-		array('name'=>'expire_time','value'=>'substr($data->expire_time,0,10)'),
+		array('name'=>'expire_time','value'=>'substr($data->expire_time,0,10)',
+			'class'=>'bootstrap.widgets.TbEditableColumn',
+			'editable'=>array('type'=>'text','title'=>'输入过期日期','url'=>'/example')
+//			'editable'=>array('type'=>'date','title'=>'输入过期日期','url' => '/example/editable', 'options'=>array('datepicker'=>array('language'=>'zh-CN','format'=>'yyyy-mm-dd'))  )
+		),
+
 		/*	
 		'owner_id',
 		'provider_id',
