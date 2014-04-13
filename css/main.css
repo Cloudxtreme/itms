@@ -1,3 +1,6 @@
+.brand,h4 {
+font-family: "Microsoft Yahei", "微软雅黑", Tahoma, Helvetica, Arial, sans-serif;
+}
 table {
 font-family: "Microsoft Yahei", "微软雅黑", Tahoma, Helvetica, Arial, sans-serif;
 font-size: 12px;
@@ -22,6 +25,9 @@ font-weight: bold;
 }
 .sidebar-nav {
 padding: 9px 0;
+}
+.grid-view {
+padding-top: 0px;
 }
 @media (max-width: 980px) {
 /* Enable use of floated navbar text */

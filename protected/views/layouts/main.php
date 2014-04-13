@@ -44,17 +44,17 @@ $this->widget(
    )
 );
 ?>
-
-<?php 
+<?php
+/*
 if(isset($this->breadcrumbs))
 {
   $this->widget(
-	'bootstrap.widgets.TbBreadcrumbs', 
-	array('links'=>$this->breadcrumbs,)
-  ); 
+    'bootstrap.widgets.TbBreadcrumbs',
+    array('links'=>$this->breadcrumbs,)
+  );
 }
+*/
 ?>
-
 <div class="container-fluid">
 <div class="row-fluid">
 

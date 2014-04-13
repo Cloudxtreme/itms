@@ -1,5 +1,5 @@
 <?php
-
+Yii::import('application.vendor.CImageUtil');
 /**
  * This is the model class for table "tbl_resource".
  *
@@ -62,7 +62,7 @@ class Resource extends CActiveRecord
 			array('ip', 'length', 'max'=>15),
 			array('ip', 'match', 'pattern'=>'/^(\d)+\.(\d)+\.(\d)+\.(\d)+$/', 'message'=>'必须是合法的IP地址.'),
 			array('location, login_user, login_pass', 'length', 'max'=>128),
-			array('create_time, expire_time,memo', 'safe'),
+			array('id,create_time, expire_time,memo', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('type, ip, location, login_user, login_pass, cores, memory, disk, data, bandwidth_type, bandwidth, create_time, expire_time, owner_id, provider_id, memo', 'safe', 'on'=>'search'),
@@ -128,7 +128,7 @@ class Resource extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		// $criteria->compare('id',$this->id);
+		$criteria->compare('id',$this->id);
 		$criteria->compare('type',$this->type);
 		$criteria->compare('ip',$this->ip,true);
 		$criteria->compare('location',$this->location,true);
@@ -160,5 +160,11 @@ class Resource extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	// 生成登录信息(用户名/密码)图片
+	public function genLoginImage()
+	{
+		CImageUtil::genTextPNG($this->login_user . "/". $this->login_pass);
 	}
 }

@@ -3,12 +3,41 @@ $this->breadcrumbs=array(
 	'Resources'=>array('index'),
 	'Manage',
 );
-
 $this->menu=array(
 array('label'=>'List Resource','url'=>array('index')),
 array('label'=>'Create Resource','url'=>array('create')),
 );
 ?>
+<! -- viewLogin modal Form -->
+<div id="viewLoginForm" class="modal hide fade">
+<div class="modal-header"><a class="close" data-dismiss="modal">&times;</a><h4>查看登录信息</h4></div>
+<div class="modal-body">
+<p>IP地址:<span id="vlfIP"></span></p>
+请输入用户口令: <br><input name="pass" type="password" id="vlfPass"><br>
+<input name="id" id="vlfID" type="hidden">
+<button class="btn btn-info" onclick="postViewLoginForm()">查看</button>
+<p><img id="vlfResult" src=""></img></p>
+</div>
+<div class="modal-footer">
+<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+</div>
+</div> <!-- viewLogin modal Form -->
+<script type="text/javascript">
+function openViewLoginForm(id, ip) {
+	$('#vlfIP').text(ip);
+	$('#vlfID').val(id);
+	$('#vlfResult').css('display','none');
+	$('#viewLoginForm').modal('show');
+	$('#vlfPass').focus();
+}
+function postViewLoginForm() {
+	var id = $('#vlfID').val();
+	var pass = $('#vlfPass').val();
+	if( id.length == 0 || pass.length == 0) { alert('不能为空!'); return; }
+	$('#vlfResult').attr('src','./?r=resource/genpass&id='+id+'&pass='+pass);
+	$('#vlfResult').css('display','');
+}
+</script>
 <?php $this->widget('bootstrap.widgets.TbExtendedGridView',array(
 'type' => 'striped bordered',
 'id'=>'resource-grid',
@@ -22,22 +51,17 @@ array('label'=>'Create Resource','url'=>array('create')),
 	'checkBoxColumnConfig' => array( 'name'=>'id'),
 ),
 'columns'=>array(
-		'id',
+		array('name'=>'id','headerHtmlOptions'=>array('width'=>'50px')),
 		array('name'=>'type','value'=>'Lookup::item("ResourceType",$data->type)','filter'=>Lookup::items('ResourceType')),
 		'ip',
 		'location',
-		'login_user',
-		array('name'=>'login_pass', 'value'=>'"*****"', 'filter'=>false),
-		
-		'cores',
-		'memory',
-		/* 'disk',
-		'data',
-		'bandwidth_type',
-		'bandwidth',
-		'create_time',
-		'expire_time',
-		
+//		'login_user',
+		array('header'=>'登录信息','type'=>'raw','value'=>'"<a href=\"javascript:openViewLoginForm({$data->id},\'{$data->ip}\')\">查看</a>"', 'filter'=>false),
+		array('header'=>'配置','value'=>'"{$data->cores}核,{$data->memory}M内存,{$data->disk}G系统盘,{$data->data}G数据盘". Lookup::item("ResourceOS",$data->os)." ".$data->osver','filter'=>false),	
+		array('header'=>'带宽','value'=>'Lookup::item("ResourceBandwidthType",$data->bandwidth_type)." {$data->bandwidth}M"', 'filter'=>false),
+		array('name'=>'create_time','value'=>'substr($data->create_time,0,10)'),
+		array('name'=>'expire_time','value'=>'substr($data->expire_time,0,10)'),
+		/*	
 		'owner_id',
 		'provider_id',
 		'memo',
@@ -47,18 +71,3 @@ array(
 ),
 ),
 )); ?>
-<!--
-<script type="text/javascript">
-jQuery(function($) {
- $(document).on('mouseenter', '[rel=tooltip]', function () {
-        $(this).tooltip({
-            container: 'body',
-            trigger: 'manual'
-        }).tooltip('show');
-    });
-    $(document).on('mouseleave', '[rel=tooltip]', function () {
-        $(this).tooltip('hide');
-    });
-});
-</script>
--->
