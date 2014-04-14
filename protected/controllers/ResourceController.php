@@ -1,4 +1,5 @@
 <?php
+Yii::import('yiibooster.widgets.TbEditableSaver');
 
 class ResourceController extends Controller
 {
@@ -52,6 +53,33 @@ public function actionGenpass($id)
 {
 $model=$this->loadModel($id);
 $model->genLoginImage();
+}
+
+// 更新一组记录的expire_time
+public function actionBulkexpire()
+{
+$ids_str =  explode(',',$_POST['ids']);
+$ids = array_map('intval', $ids_str);
+
+$cri = new CDbCriteria();
+$cri->addInCondition('id', $ids);
+
+$expire = $_POST['expire'];
+
+$ret = Resource::model()->updateAll(
+	array('expire_time'=>$expire),
+	$cri 
+);
+
+if( $ret) echo 'success';
+else echo 'fail';
+}
+
+// 更新单个记录的expire_time
+public function actionSinexpire()
+{
+	$saver = new TbEditableSaver('resource');
+	$saver->update();
 }
 
 /**
