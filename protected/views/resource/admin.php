@@ -93,7 +93,7 @@ function postBulkTimeForm() {
 'bulkActions'=>array(
 	'noCheckedMessage' => '没有选择任何数据!',
 	'actionButtons' => array(
-		array('id'=>'mod_expire','buttonType' => 'button', 'type' => 'primary', 'size' => 'small', 'label'=>'批量修改过期时间', 'click'=>'js:openBulkTimeForm'),
+		array('id'=>'mod_expire','buttonType' => 'button', 'type' => 'primary', 'size'=>'','label'=>'批量修改过期时间', 'click'=>'js:openBulkTimeForm'),
 	),
 	'checkBoxColumnConfig' => array( 'name'=>'id'),
 ),
