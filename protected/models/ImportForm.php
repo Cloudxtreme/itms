@@ -1,7 +1,7 @@
 <?php
 /**
  * ImportForm class.
- * 用于导入CSV数据到资源表中,  action: resource/import
+ * 用于导入CSV数据到主机表中,  action: host/import
  */
 Yii::import('application.vendor.CStringUtil');
 
@@ -54,7 +54,8 @@ class ImportForm extends CFormModel
 	const FLD_BANDWIDTH = 12;
 	const FLD_CREATE_TIME = 13;
 	const FLD_EXPIRE_TIME = 14;
-	const FLD_MEMO = 15;
+	const FLD_PRICE = 15;
+	const FLD_MEMO = 16;
 
 	private function importFile($filename)
 	{
@@ -66,7 +67,7 @@ class ImportForm extends CFormModel
 		$handle = fopen($filename,"r");
 
 		if($handle === false) return array(false, '无法打开上传文件');
-		$transaction=Resource::model()->dbConnection->beginTransaction();
+		$transaction=Host::model()->dbConnection->beginTransaction();
 		//fgetcsv() 解析读入的行并找出 CSV格式的字段然后返回一个包含这些字段的数组。 
 		
 		// 开始数据库事务，任何一条记录导入失败，则回退，防止csv被修正后重复导入!
@@ -75,35 +76,36 @@ class ImportForm extends CFormModel
 			$row ++;   // 记录行号
 			$data = explode(",", $line);
     			$num = count($data);
-			if($num < 16) continue;  // 跳过字段不完整行
+			if($num < 17) continue;  // 跳过字段不完整行
 			if(CStringUtil::startWith($data[0],'#')) continue;  // 跳过注释
 
 			// 开始导入
 			
-			$resource = new Resource();
-			$resource->type = $data[ImportForm::FLD_TYPE];
-			$resource->ip = $data[ImportForm::FLD_IP];
-			$resource->location = CStringUtil::_U($data[ImportForm::FLD_LOCATION]);
-			$resource->login_user = $data[ImportForm::FLD_LOGIN_USER];
-			$resource->login_pass = $data[ImportForm::FLD_LOGIN_PASS];
-			$resource->cores = $data[ImportForm::FLD_CORES];
-			$resource->memory = $data[ImportForm::FLD_MEMORY];
-			$resource->disk = $data[ImportForm::FLD_DISK];
-			$resource->data = $data[ImportForm::FLD_DATA];
-			$resource->os = $data[ImportForm::FLD_OS];
-			$resource->osver = CStringUtil::_U($data[ImportForm::FLD_OSVER]);
-			$resource->bandwidth_type = $data[ImportForm::FLD_BANDWIDTH_TYPE];
-			$resource->bandwidth = $data[ImportForm::FLD_BANDWIDTH];
-			$resource->create_time = $data[ImportForm::FLD_CREATE_TIME];
-			$resource->expire_time = $data[ImportForm::FLD_EXPIRE_TIME];
-			$resource->memo = CStringUtil::_U($data[ImportForm::FLD_MEMO]);
+			$host = new Host();
+			$host->type = $data[ImportForm::FLD_TYPE];
+			$host->ip = $data[ImportForm::FLD_IP];
+			$host->location = CStringUtil::_U($data[ImportForm::FLD_LOCATION]);
+			$host->login_user = $data[ImportForm::FLD_LOGIN_USER];
+			$host->login_pass = $data[ImportForm::FLD_LOGIN_PASS];
+			$host->cores = $data[ImportForm::FLD_CORES];
+			$host->memory = $data[ImportForm::FLD_MEMORY];
+			$host->disk = $data[ImportForm::FLD_DISK];
+			$host->data = $data[ImportForm::FLD_DATA];
+			$host->os = $data[ImportForm::FLD_OS];
+			$host->osver = CStringUtil::_U($data[ImportForm::FLD_OSVER]);
+			$host->bandwidth_type = $data[ImportForm::FLD_BANDWIDTH_TYPE];
+			$host->bandwidth = $data[ImportForm::FLD_BANDWIDTH];
+			$host->create_time = $data[ImportForm::FLD_CREATE_TIME];
+			$host->expire_time = $data[ImportForm::FLD_EXPIRE_TIME];
+			$host->price = $data[ImportForm::FLD_PRICE];
+			$host->memo = CStringUtil::_U($data[ImportForm::FLD_MEMO]);
 
-			$resource->owner_id = $this->owner_id;
-			$resource->provider_id = $this->provider_id;
+			$host->owner_id = $this->owner_id;
+			$host->provider_id = $this->provider_id;
 			
-			if( $resource->save() )  $suc_rows ++;
+			if( $host->save() )  $suc_rows ++;
 			else  {
-				$err_msg =  '第'.$row.'行导入错误:' . CHtml::errorSummary($resource,'','',array('firstError'=>true));
+				$err_msg =  '第'.$row.'行导入错误:' . CHtml::errorSummary($host,'','',array('firstError'=>true));
 				$err_rows ++;
 				$transaction->rollback();
 				break;

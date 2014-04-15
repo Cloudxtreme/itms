@@ -1,6 +1,9 @@
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'provider-form',
-	'enableAjaxValidation'=>false,
+       'enableClientValidation'=>true,
+        'clientOptions'=>array(
+                'validateOnSubmit'=>true,
+        ),
 )); ?>
 
 <p class="help-block">标注 <span class="required">*</span> 的为必填项.</p>
@@ -8,6 +11,8 @@
 <?php echo $form->errorSummary($model); ?>
 
 	<?php echo $form->textFieldRow($model,'name',array('class'=>'span5','maxlength'=>128)); ?>
+
+	<?php echo $form->dropdownListRow($model,'type', Lookup::items('ProviderType'), array('class'=>'span5')); ?>
 
 	<?php echo $form->textFieldRow($model,'login_user',array('class'=>'span5','maxlength'=>128)); ?>
 
@@ -17,7 +22,7 @@
 
 	<?php echo $form->textFieldRow($model,'admin_user',array('class'=>'span5','maxlength'=>128)); ?>
 
-	<?php echo $form->textFieldRow($model,'admin_pass',array('class'=>'span5','maxlength'=>128)); ?>
+	<?php echo $form->passwordFieldRow($model,'admin_pass',array('class'=>'span5','maxlength'=>128)); ?>
 
 	<?php echo $form->textFieldRow($model,'admin_url',array('class'=>'span5','maxlength'=>256)); ?>
 

@@ -23,13 +23,16 @@ $this->widget(
 	'fluid' => true,
         'items' => array(
             array(
-                'class' => 'bootstrap.widgets.TbMenu',
-                'items' => array(
-                    array('label' => '主页', 'url' => './?r=site/index', 'active' => CStringUtil::startWith(Yii::app()->controller->route, 'site') ),
-		    array('label' => '资源', 'url' => './?r=resource', 'active' => CStringUtil::startWith(Yii::app()->controller->route, 'resource') ),
-		    array('label' => '提供商', 'url' => './?r=provider','active' => CStringUtil::startWith(Yii::app()->controller->route, 'provider') ),
-		    array('label' => '用户', 'url' => './?r=user','active' => CStringUtil::startWith(Yii::app()->controller->route, 'user') ),
-                ),
+'class' => 'bootstrap.widgets.TbMenu',
+'items' => array(
+array('label' => '主页', 'url' => './?r=site/index', 'active' => CStringUtil::startWith(Yii::app()->controller->route, 'site') ),
+array('label' => '主机', 'url' => './?r=host', 'active' => CStringUtil::startWith(Yii::app()->controller->route, 'host') ),
+array('label' => '域名', 'url' => './?r=domain', 'active' => CStringUtil::startWith(Yii::app()->controller->route, 'domain') ),
+array('label' => 'CDN', 'url' => './?r=cdn', 'active' => CStringUtil::startWith(Yii::app()->controller->route, 'cdn') ),
+array('label' => '第三方统计', 'url' => './?r=stat', 'active' => CStringUtil::startWith(Yii::app()->controller->route, '3rd') ),
+array('label' => '提供商', 'url' => './?r=provider','active' => CStringUtil::startWith(Yii::app()->controller->route, 'provider') ),
+array('label' => '用户', 'url' => './?r=user','active' => CStringUtil::startWith(Yii::app()->controller->route, 'user') ),
+),
             ),
             '<form class="navbar-search pull-left" action=""><input type="text" class="search-query span2" placeholder="查找"></form>',
 	    array(

@@ -1,14 +1,12 @@
 <?php
 
-class ProviderController extends Controller
+class StatController extends Controller
 {
 /**
 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 * using two-column layout. See 'protected/views/layouts/column2.php'.
 */
-public $layout='//layouts/provider';
-
-public $defaultAction='admin';
+public $layout='//layouts/column2';
 
 /**
 * @return array action filters
@@ -20,12 +18,6 @@ return array(
 );
 }
 
-public function actionGenpass($id)
-{
-$model=$this->loadModel($id);
-$model->genLoginImage();
-}
-
 /**
 * Specifies the access control rules.
 * This method is used by the 'accessControl' filter.
@@ -35,10 +27,10 @@ public function accessRules()
 {
 return array(
 array('allow',  // allow all users to perform 'index' and 'view' actions
-// 'actions'=>array('index','view'),
-'users'=>array('@'),
+'actions'=>array('index','view'),
+'users'=>array('*'),
 ),
-/* array('allow', // allow authenticated user to perform 'create' and 'update' actions
+array('allow', // allow authenticated user to perform 'create' and 'update' actions
 'actions'=>array('create','update'),
 'users'=>array('@'),
 ),
@@ -46,7 +38,6 @@ array('allow', // allow admin user to perform 'admin' and 'delete' actions
 'actions'=>array('admin','delete'),
 'users'=>array('admin'),
 ),
-*/
 array('deny',  // deny all users
 'users'=>array('*'),
 ),
@@ -70,14 +61,14 @@ $this->render('view',array(
 */
 public function actionCreate()
 {
-$model=new Provider;
+$model=new Stat;
 
 // Uncomment the following line if AJAX validation is needed
 // $this->performAjaxValidation($model);
 
-if(isset($_POST['Provider']))
+if(isset($_POST['Stat']))
 {
-$model->attributes=$_POST['Provider'];
+$model->attributes=$_POST['Stat'];
 if($model->save())
 $this->redirect(array('view','id'=>$model->id));
 }
@@ -99,9 +90,9 @@ $model=$this->loadModel($id);
 // Uncomment the following line if AJAX validation is needed
 // $this->performAjaxValidation($model);
 
-if(isset($_POST['Provider']))
+if(isset($_POST['Stat']))
 {
-$model->attributes=$_POST['Provider'];
+$model->attributes=$_POST['Stat'];
 if($model->save())
 $this->redirect(array('view','id'=>$model->id));
 }
@@ -136,7 +127,7 @@ throw new CHttpException(400,'Invalid request. Please do not repeat this request
 */
 public function actionIndex()
 {
-$dataProvider=new CActiveDataProvider('Provider');
+$dataProvider=new CActiveDataProvider('Stat');
 $this->render('index',array(
 'dataProvider'=>$dataProvider,
 ));
@@ -147,10 +138,10 @@ $this->render('index',array(
 */
 public function actionAdmin()
 {
-$model=new Provider('search');
+$model=new Stat('search');
 $model->unsetAttributes();  // clear any default values
-if(isset($_GET['Provider']))
-$model->attributes=$_GET['Provider'];
+if(isset($_GET['Stat']))
+$model->attributes=$_GET['Stat'];
 
 $this->render('admin',array(
 'model'=>$model,
@@ -164,7 +155,7 @@ $this->render('admin',array(
 */
 public function loadModel($id)
 {
-$model=Provider::model()->findByPk($id);
+$model=Stat::model()->findByPk($id);
 if($model===null)
 throw new CHttpException(404,'The requested page does not exist.');
 return $model;
@@ -176,7 +167,7 @@ return $model;
 */
 protected function performAjaxValidation($model)
 {
-if(isset($_POST['ajax']) && $_POST['ajax']==='provider-form')
+if(isset($_POST['ajax']) && $_POST['ajax']==='stat-form')
 {
 echo CActiveForm::validate($model);
 Yii::app()->end();

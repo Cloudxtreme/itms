@@ -1,4 +1,5 @@
 <?php
+Yii::import('application.vendor.CImageUtil');
 
 /**
  * This is the model class for table "tbl_provider".
@@ -37,7 +38,7 @@ class Provider extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, login_user, login_pass, login_url, payment_type', 'required'),
-			array('payment_type', 'numerical', 'integerOnly'=>true),
+			array('type,payment_type', 'numerical', 'integerOnly'=>true),
 			array('name, login_user, login_pass, admin_user, admin_pass', 'length', 'max'=>128),
 			array('login_url, admin_url', 'length', 'max'=>256),
 			array('payment_info', 'safe'),
@@ -67,6 +68,7 @@ class Provider extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => '名称',
+			'type' => '资源类型',
 			'login_user' => '注册用户名',
 			'login_pass' => '登录口令',
 			'login_url' => '登录地址(URL)',
@@ -132,4 +134,10 @@ class Provider extends CActiveRecord
                         $ul[$rec->id] = $rec->name . "(". $rec->login_user. ")";
                 return $ul;
         }
+
+     	// 生成登录信息(用户名/密码)图片
+        public function genLoginImage()
+        {       
+                CImageUtil::genTextPNG($this->login_user . "/". $this->login_pass."   ".$this->admin_user."/".$this->admin_pass);
+        }       
 }

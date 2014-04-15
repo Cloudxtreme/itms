@@ -13,6 +13,6 @@ $this->breadcrumbs=array(
 	);
 	?>
 
-	<h1>Update Provider <?php echo $model->id; ?></h1>
+	<h4>编辑提供商信息 #<?php echo $model->id; ?></h4>
 
 <?php echo $this->renderPartial('_form',array('model'=>$model)); ?>

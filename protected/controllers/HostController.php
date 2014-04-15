@@ -1,12 +1,13 @@
 <?php
+Yii::import('yiibooster.widgets.TbEditableSaver');
 
-class ProviderController extends Controller
+class HostController extends Controller
 {
 /**
 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 * using two-column layout. See 'protected/views/layouts/column2.php'.
 */
-public $layout='//layouts/provider';
+public $layout='//layouts/host';
 
 public $defaultAction='admin';
 
@@ -20,12 +21,6 @@ return array(
 );
 }
 
-public function actionGenpass($id)
-{
-$model=$this->loadModel($id);
-$model->genLoginImage();
-}
-
 /**
 * Specifies the access control rules.
 * This method is used by the 'accessControl' filter.
@@ -34,19 +29,9 @@ $model->genLoginImage();
 public function accessRules()
 {
 return array(
-array('allow',  // allow all users to perform 'index' and 'view' actions
-// 'actions'=>array('index','view'),
+array('allow', // allow authenticated user to perform 'create' and 'update' actions
 'users'=>array('@'),
 ),
-/* array('allow', // allow authenticated user to perform 'create' and 'update' actions
-'actions'=>array('create','update'),
-'users'=>array('@'),
-),
-array('allow', // allow admin user to perform 'admin' and 'delete' actions
-'actions'=>array('admin','delete'),
-'users'=>array('admin'),
-),
-*/
 array('deny',  // deny all users
 'users'=>array('*'),
 ),
@@ -64,20 +49,53 @@ $this->render('view',array(
 ));
 }
 
+public function actionGenpass($id)
+{
+$model=$this->loadModel($id);
+$model->genLoginImage();
+}
+
+// 更新一组记录的expire_time
+public function actionBulkexpire()
+{
+$ids_str =  explode(',',$_POST['ids']);
+$ids = array_map('intval', $ids_str);
+
+$cri = new CDbCriteria();
+$cri->addInCondition('id', $ids);
+
+$expire = $_POST['expire'];
+
+$ret = Host::model()->updateAll(
+	array('expire_time'=>$expire),
+	$cri 
+);
+
+if( $ret) echo 'success';
+else echo 'fail';
+}
+
+// 更新单个记录的expire_time
+public function actionSinexpire()
+{
+	$saver = new TbEditableSaver('host');
+	$saver->update();
+}
+
 /**
 * Creates a new model.
 * If creation is successful, the browser will be redirected to the 'view' page.
 */
 public function actionCreate()
 {
-$model=new Provider;
+$model=new Host;
 
 // Uncomment the following line if AJAX validation is needed
 // $this->performAjaxValidation($model);
 
-if(isset($_POST['Provider']))
+if(isset($_POST['Host']))
 {
-$model->attributes=$_POST['Provider'];
+$model->attributes=$_POST['Host'];
 if($model->save())
 $this->redirect(array('view','id'=>$model->id));
 }
@@ -99,9 +117,9 @@ $model=$this->loadModel($id);
 // Uncomment the following line if AJAX validation is needed
 // $this->performAjaxValidation($model);
 
-if(isset($_POST['Provider']))
+if(isset($_POST['Host']))
 {
-$model->attributes=$_POST['Provider'];
+$model->attributes=$_POST['Host'];
 if($model->save())
 $this->redirect(array('view','id'=>$model->id));
 }
@@ -136,7 +154,7 @@ throw new CHttpException(400,'Invalid request. Please do not repeat this request
 */
 public function actionIndex()
 {
-$dataProvider=new CActiveDataProvider('Provider');
+$dataProvider=new CActiveDataProvider('Host');
 $this->render('index',array(
 'dataProvider'=>$dataProvider,
 ));
@@ -147,15 +165,49 @@ $this->render('index',array(
 */
 public function actionAdmin()
 {
-$model=new Provider('search');
+$model=new Host('search');
 $model->unsetAttributes();  // clear any default values
-if(isset($_GET['Provider']))
-$model->attributes=$_GET['Provider'];
+if(isset($_GET['Host']))
+$model->attributes=$_GET['Host'];
 
 $this->render('admin',array(
 'model'=>$model,
 ));
 }
+
+/**
+* Import CSV file
+*/
+public function actionImport()
+{
+$model=new ImportForm;
+          
+// if it is ajax validation request
+if(isset($_POST['ajax']) && $_POST['ajax']==='host-import-form')
+{               
+echo CActiveForm::validate($model);
+Yii::app()->end();
+}
+// collect user input data
+if(isset($_POST['ImportForm']))
+{
+	$model->attributes=$_POST['ImportForm'];
+        // validate user input and redirect to the previous page if valid
+        if($model->validate())
+	{
+		list($ret, $msg) = $model->import();
+		if($ret)
+			Yii::app()->user->setFlash('success', $msg);
+		else
+			Yii::app()->user->setFlash('error', $msg);
+
+		$this->refresh();
+//		$this->redirect(Yii::app()->user->returnUrl);
+	}
+}       
+// display the login form
+$this->render('import',array('model'=>$model));
+}                       
 
 /**
 * Returns the data model based on the primary key given in the GET variable.
@@ -164,7 +216,7 @@ $this->render('admin',array(
 */
 public function loadModel($id)
 {
-$model=Provider::model()->findByPk($id);
+$model=Host::model()->findByPk($id);
 if($model===null)
 throw new CHttpException(404,'The requested page does not exist.');
 return $model;
@@ -176,7 +228,7 @@ return $model;
 */
 protected function performAjaxValidation($model)
 {
-if(isset($_POST['ajax']) && $_POST['ajax']==='provider-form')
+if(isset($_POST['ajax']) && $_POST['ajax']==='host-form')
 {
 echo CActiveForm::validate($model);
 Yii::app()->end();

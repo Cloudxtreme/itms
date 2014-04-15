@@ -13,20 +13,27 @@ array('label'=>'Manage Provider','url'=>array('admin')),
 );
 ?>
 
-<h1>View Provider #<?php echo $model->id; ?></h1>
+<h4>资源提供商 #<?php echo $model->id; ?></h4>
 
 <?php $this->widget('bootstrap.widgets.TbDetailView',array(
 'data'=>$model,
 'attributes'=>array(
 		'id',
 		'name',
+		array('name'=>'type','value'=>Lookup::item("ProviderType",$model->type)),
 		'login_user',
-		'login_pass',
-		'login_url',
+		array('name'=>'login_pass','value'=>'***'),
+		array('name'=>'login_url','type'=>'raw','value'=>CHtml::link($model->login_url,$model->login_url,array('target'=>'_blank'))),
 		'admin_user',
-		'admin_pass',
+		array('name'=>'admin_pass','value'=>'***'),
 		'admin_url',
-		'payment_type',
+		array('name'=>'payment_type','value'=>Lookup::item("ProviderPaymentType",$model->payment_type)),
 		'payment_info',
 ),
 )); ?>
+<div class='span2'><?php
+$this->widget('bootstrap.widgets.TbButton', array('type'=>'primary','label'=>'继续添加','url'=>$this->createUrl('provider/create')));
+?></div><div class='span2'>
+<?php
+$this->widget('bootstrap.widgets.TbButton', array('type'=>'primary','label'=>'修改','url'=>$this->createUrl('provider/update', array('id'=>$model->id) ) ));
+?></div>

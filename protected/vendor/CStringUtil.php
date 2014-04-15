@@ -120,6 +120,17 @@ public static function contain($str, $k)
         return true;
 }
 
+// 包含多个
+public static function contains($str, $ks)
+{
+	foreach($ks as $k) {
+		$pos = strpos($str, $k);
+		if( $pos === false) continue;
+		else return true;
+	}
+	return false;
+}
+
 // 包含(忽略大小写)
 public static function containi($str, $k)
 {
