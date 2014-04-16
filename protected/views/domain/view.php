@@ -1,32 +1,25 @@
-<?php
-$this->breadcrumbs=array(
-	'Domains'=>array('index'),
-	$model->name,
-);
-
-$this->menu=array(
-array('label'=>'List Domain','url'=>array('index')),
-array('label'=>'Create Domain','url'=>array('create')),
-array('label'=>'Update Domain','url'=>array('update','id'=>$model->id)),
-array('label'=>'Delete Domain','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-array('label'=>'Manage Domain','url'=>array('admin')),
-);
-?>
-
-<h1>View Domain #<?php echo $model->id; ?></h1>
+<h4>查看域名 #<?php echo $model->id; ?></h4>
 
 <?php $this->widget('bootstrap.widgets.TbDetailView',array(
 'data'=>$model,
 'attributes'=>array(
-		'id',
-		'name',
+                'id',
+                'name',
 		'dns',
 		'beian',
-		'create_time',
-		'expire_time',
-		'owner_id',
-		'provider_id',
-		'price',
-		'memo',
+                'create_time',
+                'expire_time',
+                'price',
+                array('name'=>'owner_id','value'=>User::getName($model->owner_id)),
+                array('name'=>'provider_id','value'=>Provider::getName($model->provider_id)),
+                'memo',
 ),
 )); ?>
+<div class='span2'><?php
+$this->widget('bootstrap.widgets.TbButton', array('type'=>'primary','label'=>'继续添加','url'=>$this->createUrl('domain/create')))
+;
+?></div><div class='span2'>
+<?php
+$this->widget('bootstrap.widgets.TbButton', array('type'=>'primary','label'=>'修改','url'=>$this->createUrl('domain/update', array
+('id'=>$model->id) ) ));
+?></div>

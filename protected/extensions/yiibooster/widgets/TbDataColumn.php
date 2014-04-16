@@ -8,6 +8,7 @@
  */
 
 Yii::import('zii.widgets.grid.CDataColumn');
+Yii::import('application.vendor.CStringUtil');
 
 /**
  *## Bootstrap grid data column.
@@ -38,6 +39,7 @@ class TbDataColumn extends CDataColumn
 
             $booster = Bootstrap::getBooster();
 
+			// Patch: to display correct sort icon
 			if ($sort->resolveAttribute($this->name) !== false){
                             if($sort->getDirection($this->name) === CSort::SORT_ASC){
                                 $label .= ' <span class="'.($booster->fontAwesomeCss ? 'fa fa-sort-asc' : 'icon-chevron-up').'"></span>';
@@ -52,7 +54,17 @@ class TbDataColumn extends CDataColumn
 
 			$sortcode = $sort->link($this->name, $label, array('class' => 'sort-link'));
 			$sortcode = str_replace('asc', 'desc', $sortcode, $i);
-			if( $i === 0) $sortcode = str_replace('desc','asc',$sortcode);
+			if( $i === 0) { 
+				$sortcode = str_replace('desc','asc',$sortcode, $i);
+				if($i === 0) {  //default sort , change to desc
+					$href = CStringUtil::segment($sortcode,'href="','"');
+					$key = CStringUtil::segment($href, '_sort=', '&');
+					$sortcode = str_replace($key, $key.".desc", $sortcode);
+//					Yii::log('key='.$key.' sortcode=['.$sortcode.']', 'warning');
+				}
+
+			}
+
 			echo $sortcode;
 		} else {
 			if ($this->name !== null && $this->header === null) {

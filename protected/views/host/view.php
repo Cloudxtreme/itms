@@ -23,8 +23,8 @@
 		'create_time',
 		'expire_time',
 		'price',
-		'owner_id',
-		'provider_id',
+                array('name'=>'owner_id','value'=>User::getName($model->owner_id)),
+                array('name'=>'provider_id','value'=>Provider::getName($model->provider_id)),
 		'memo',
 ),
 )); ?>

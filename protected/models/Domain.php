@@ -67,15 +67,15 @@ class Domain extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'dns' => 'Dns',
-			'beian' => 'Beian',
-			'create_time' => 'Create Time',
-			'expire_time' => 'Expire Time',
-			'owner_id' => 'Owner',
-			'provider_id' => 'Provider',
-			'price' => 'Price',
-			'memo' => 'Memo',
+			'name' => '域名',
+			'dns' => '解析服务器',
+			'beian' => '备案号',
+			'create_time' => '创建时间',
+			'expire_time' => '过期时间',
+			'owner_id' => '所有者',
+			'provider_id' => '提供商',
+			'price' => '年费',
+			'memo' => '备注信息',
 		);
 	}
 

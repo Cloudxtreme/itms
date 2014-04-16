@@ -1,19 +1,4 @@
-<?php
-$this->breadcrumbs=array(
-	'Cdns'=>array('index'),
-	$model->name,
-);
-
-$this->menu=array(
-array('label'=>'List Cdn','url'=>array('index')),
-array('label'=>'Create Cdn','url'=>array('create')),
-array('label'=>'Update Cdn','url'=>array('update','id'=>$model->id)),
-array('label'=>'Delete Cdn','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-array('label'=>'Manage Cdn','url'=>array('admin')),
-);
-?>
-
-<h1>View Cdn #<?php echo $model->id; ?></h1>
+<h4>查看 Cdn #<?php echo $model->id; ?></h4>
 
 <?php $this->widget('bootstrap.widgets.TbDetailView',array(
 'data'=>$model,
@@ -23,9 +8,13 @@ array('label'=>'Manage Cdn','url'=>array('admin')),
 		'quota',
 		'create_time',
 		'expire_time',
-		'owner_id',
-		'provider_id',
+                array('name'=>'owner_id','value'=>User::getName($model->owner_id)),
+                array('name'=>'provider_id','value'=>Provider::getName($model->provider_id)),
 		'price',
 		'memo',
 ),
 )); ?>
+<div class='span2'><?php
+$this->widget('bootstrap.widgets.TbButton', array('type'=>'primary','label'=>'继续添加','url'=>$this->createUrl('cdn/create'))); ?></div><div class='span2'>
+<?php
+$this->widget('bootstrap.widgets.TbButton', array('type'=>'primary','label'=>'修改','url'=>$this->createUrl('cdn/update', array('id'=>$model->id) ) )); ?></div>

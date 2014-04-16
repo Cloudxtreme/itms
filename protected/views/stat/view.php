@@ -1,19 +1,4 @@
-<?php
-$this->breadcrumbs=array(
-	'Stats'=>array('index'),
-	$model->name,
-);
-
-$this->menu=array(
-array('label'=>'List Stat','url'=>array('index')),
-array('label'=>'Create Stat','url'=>array('create')),
-array('label'=>'Update Stat','url'=>array('update','id'=>$model->id)),
-array('label'=>'Delete Stat','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-array('label'=>'Manage Stat','url'=>array('admin')),
-);
-?>
-
-<h1>View Stat #<?php echo $model->id; ?></h1>
+<h4>查看 Stat #<?php echo $model->id; ?></h4>
 
 <?php $this->widget('bootstrap.widgets.TbDetailView',array(
 'data'=>$model,
@@ -22,8 +7,12 @@ array('label'=>'Manage Stat','url'=>array('admin')),
 		'name',
 		'siteid',
 		'view_pass',
-		'owner_id',
-		'provider_id',
+                array('name'=>'owner_id','value'=>User::getName($model->owner_id)),
+                array('name'=>'provider_id','value'=>Provider::getName($model->provider_id)),
 		'memo',
 ),
 )); ?>
+<div class='span2'><?php
+$this->widget('bootstrap.widgets.TbButton', array('type'=>'primary','label'=>'继续添加','url'=>$this->createUrl('stat/create'))); ?></div><div class='span2'>
+<?php
+$this->widget('bootstrap.widgets.TbButton', array('type'=>'primary','label'=>'修改','url'=>$this->createUrl('stat/update', array('id'=>$model->id) ) )); ?></div>

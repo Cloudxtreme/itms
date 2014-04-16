@@ -75,8 +75,25 @@ if( $ret) echo 'success';
 else echo 'fail';
 }
 
+// 批量删除
+public function actionBulkdelete()
+{
+$ids_str =  explode(',',$_POST['ids']);
+$ids = array_map('intval', $ids_str);
+
+$cri = new CDbCriteria();
+$cri->addInCondition('id', $ids);
+
+$ret = Host::model()->deleteAll(
+        $cri
+);
+
+if( $ret) echo 'success';
+else echo 'fail';
+}
+
 // 更新单个记录的expire_time
-public function actionSinexpire()
+public function actionSinmod()
 {
 	$saver = new TbEditableSaver('host');
 	$saver->update();
@@ -180,7 +197,7 @@ $this->render('admin',array(
 */
 public function actionImport()
 {
-$model=new ImportForm;
+$model=new ImportHost;
           
 // if it is ajax validation request
 if(isset($_POST['ajax']) && $_POST['ajax']==='host-import-form')
@@ -189,9 +206,9 @@ echo CActiveForm::validate($model);
 Yii::app()->end();
 }
 // collect user input data
-if(isset($_POST['ImportForm']))
+if(isset($_POST['ImportHost']))
 {
-	$model->attributes=$_POST['ImportForm'];
+	$model->attributes=$_POST['ImportHost'];
         // validate user input and redirect to the previous page if valid
         if($model->validate())
 	{

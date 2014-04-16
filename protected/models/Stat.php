@@ -64,12 +64,12 @@ class Stat extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'siteid' => 'Siteid',
-			'view_pass' => 'View Pass',
-			'owner_id' => 'Owner',
-			'provider_id' => 'Provider',
-			'memo' => 'Memo',
+			'name' => '站点名称',
+			'siteid' => '站点ID',
+			'view_pass' => '查看密码',
+			'owner_id' => '所有者',
+			'provider_id' => '提供商',
+			'memo' => '备注信息',
 		);
 	}
 

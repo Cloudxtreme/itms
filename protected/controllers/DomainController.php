@@ -1,4 +1,5 @@
 <?php
+Yii::import('yiibooster.widgets.TbEditableSaver');
 
 class DomainController extends Controller
 {
@@ -6,7 +7,9 @@ class DomainController extends Controller
 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 * using two-column layout. See 'protected/views/layouts/column2.php'.
 */
-public $layout='//layouts/column2';
+public $layout='//layouts/domain';
+
+public $defaultAction='admin';
 
 /**
 * @return array action filters
@@ -26,22 +29,40 @@ return array(
 public function accessRules()
 {
 return array(
-array('allow',  // allow all users to perform 'index' and 'view' actions
-'actions'=>array('index','view'),
-'users'=>array('*'),
-),
 array('allow', // allow authenticated user to perform 'create' and 'update' actions
-'actions'=>array('create','update'),
 'users'=>array('@'),
-),
-array('allow', // allow admin user to perform 'admin' and 'delete' actions
-'actions'=>array('admin','delete'),
-'users'=>array('admin'),
 ),
 array('deny',  // deny all users
 'users'=>array('*'),
 ),
 );
+}
+
+// 更新一组记录的expire_time
+public function actionBulkexpire()
+{
+$ids_str =  explode(',',$_POST['ids']);
+$ids = array_map('intval', $ids_str);
+
+$cri = new CDbCriteria();
+$cri->addInCondition('id', $ids);
+
+$expire = $_POST['expire'];
+
+$ret = Domain::model()->updateAll(
+        array('expire_time'=>$expire),
+        $cri
+);
+
+if( $ret) echo 'success';
+else echo 'fail';
+}
+
+// 更新单个记录的expire_time
+public function actionSinmod()
+{
+        $saver = new TbEditableSaver('domain');
+        $saver->update();
 }
 
 /**
@@ -173,4 +194,61 @@ echo CActiveForm::validate($model);
 Yii::app()->end();
 }
 }
+
+
+/**
+* Import CSV file
+*/
+public function actionImport()
+{
+$model=new ImportDomain;
+
+// if it is ajax validation request
+if(isset($_POST['ajax']) && $_POST['ajax']==='domain-import-form')
+{
+echo CActiveForm::validate($model);
+Yii::app()->end();
+}
+// collect user input data
+if(isset($_POST['ImportDomain']))
+{
+        $model->attributes=$_POST['ImportDomain'];
+        // validate user input and redirect to the previous page if valid
+        if($model->validate())
+        {
+                list($ret, $msg) = $model->import();
+                if($ret)
+                        Yii::app()->user->setFlash('success', $msg);
+                else
+                        Yii::app()->user->setFlash('error', $msg);
+
+                $this->refresh();
+//              $this->redirect(Yii::app()->user->returnUrl);
+        }
+}
+// display the login form
+$this->render('import',array('model'=>$model));
+}
+
+
+// 批量删除
+public function actionBulkdelete()
+{
+$ids_str =  explode(',',$_POST['ids']);
+$ids = array_map('intval', $ids_str);
+
+$cri = new CDbCriteria();
+$cri->addInCondition('id', $ids);
+
+$ret = Domain::model()->deleteAll(
+        $cri
+);
+
+if( $ret) echo 'success';
+else echo 'fail';
+}
+
+
+
+
 }

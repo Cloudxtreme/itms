@@ -18,8 +18,12 @@ class BootstrapCode extends CrudCode
 {
 	public function generateActiveRow($modelClass, $column)
 	{
+		// Yii::log( $column->name . ':'. $column->dbType, 'warning');
+
 		if ($column->type === 'boolean') {
 			return "\$form->checkBoxRow(\$model,'{$column->name}')";
+		} else if($column->dbType === 'date') {
+			return "\$form->datePickerRow(\$model,'{$column->name}',array('options'=>array('language'=>'zh-CN','format'=>'yyyy-mm-dd')))";
 		} else if (stripos($column->dbType, 'text') !== false) {
 			return "\$form->textAreaRow(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
 		} else {

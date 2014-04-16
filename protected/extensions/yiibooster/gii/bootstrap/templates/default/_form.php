@@ -6,10 +6,13 @@
 ?>
 <?php echo "<?php \$form=\$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'" . $this->class2id($this->modelClass) . "-form',
-	'enableAjaxValidation'=>false,
+	'enableClientValidation'=>true,
+        'clientOptions'=>array(
+                'validateOnSubmit'=>true,
+        ),
 )); ?>\n"; ?>
 
-<p class="help-block">Fields with <span class="required">*</span> are required.</p>
+<p class="help-block">标有 <span class="required">*</span> 为必填项</p>
 
 <?php echo "<?php echo \$form->errorSummary(\$model); ?>\n"; ?>
 
@@ -28,7 +31,7 @@ foreach ($this->tableSchema->columns as $column) {
 	<?php echo "<?php \$this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
-			'label'=>\$model->isNewRecord ? 'Create' : 'Save',
+			'label'=>\$model->isNewRecord ? '添加' : '保存',
 		)); ?>\n"; ?>
 </div>
 

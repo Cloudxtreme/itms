@@ -1,19 +1,4 @@
-<?php
-$this->breadcrumbs=array(
-	'Users'=>array('index'),
-	$model->id,
-);
-
-$this->menu=array(
-array('label'=>'List User','url'=>array('index')),
-array('label'=>'Create User','url'=>array('create')),
-array('label'=>'Update User','url'=>array('update','id'=>$model->id)),
-array('label'=>'Delete User','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-array('label'=>'Manage User','url'=>array('admin')),
-);
-?>
-
-<h1>View User #<?php echo $model->id; ?></h1>
+<h4>查看 User #<?php echo $model->id; ?></h4>
 
 <?php $this->widget('bootstrap.widgets.TbDetailView',array(
 'data'=>$model,
@@ -25,3 +10,7 @@ array('label'=>'Manage User','url'=>array('admin')),
 		'profile',
 ),
 )); ?>
+<div class='span2'><?php
+$this->widget('bootstrap.widgets.TbButton', array('type'=>'primary','label'=>'继续添加','url'=>$this->createUrl('user/create'))); ?></div><div class='span2'>
+<?php
+$this->widget('bootstrap.widgets.TbButton', array('type'=>'primary','label'=>'修改','url'=>$this->createUrl('user/update', array('id'=>$model->id) ) )); ?></div>

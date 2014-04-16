@@ -1,9 +1,12 @@
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'user-form',
-	'enableAjaxValidation'=>false,
+	'enableClientValidation'=>true,
+        'clientOptions'=>array(
+                'validateOnSubmit'=>true,
+        ),
 )); ?>
 
-<p class="help-block">Fields with <span class="required">*</span> are required.</p>
+<p class="help-block">标有 <span class="required">*</span> 为必填项</p>
 
 <?php echo $form->errorSummary($model); ?>
 
@@ -19,7 +22,7 @@
 	<?php $this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
-			'label'=>$model->isNewRecord ? 'Create' : 'Save',
+			'label'=>$model->isNewRecord ? '添加' : '保存',
 		)); ?>
 </div>
 

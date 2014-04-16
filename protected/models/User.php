@@ -59,10 +59,10 @@ class User extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'username' => 'Username',
-			'password' => 'Password',
+			'username' => '用户名',
+			'password' => '密码',
 			'email' => 'Email',
-			'profile' => 'Profile',
+			'profile' => '备注信息',
 		);
 	}
 
@@ -114,5 +114,12 @@ class User extends CActiveRecord
 		foreach($recs as $rec)
 			$ul[$rec->id] = $rec->username;
 		return $ul;
+	}
+
+	public static function getName($id)
+	{
+		$rec = self::model()->findByPk($id);
+		if($rec === null) return '';
+		else  return $rec->username;
 	}
 }

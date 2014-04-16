@@ -135,6 +135,14 @@ class Provider extends CActiveRecord
                 return $ul;
         }
 
+	// 根据id返回名字，用于view中的显示
+        public static function getName($id)
+        {
+                $rec = self::model()->findByPk($id);
+                if($rec === null) return '';
+                else  return $rec->name. "(". $rec->login_user. ")";
+        }
+
      	// 生成登录信息(用户名/密码)图片
         public function genLoginImage()
         {       

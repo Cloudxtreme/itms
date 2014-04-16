@@ -1,7 +1,7 @@
 <?php if( !Yii::app()->user->hasFlash('success') && !Yii::app()->user->hasFlash('error')): ?>
 <div class="alert alert-info">
 <p>
-快速从文本文件(.CSV格式，以逗号分隔字段)中批量导入主机信息。所导入的主机必须是归属同一所有者和同一提供商。如果文本中任何一条记录出现格式错误，将不会发生任何数据导入。点击按钮下载CSV样本文件。
+快速从文本文件(.CSV格式，以逗号分隔字段)中批量导入域名信息。所导入的域名必须是归属同一所有者和同一提供商。如果文本中任何一条记录出现格式错误，将不会发生任何数据导入。点击按钮下载CSV样本文件。
 </p>
 <p>
 <?php $this->widget(
@@ -9,8 +9,8 @@
             array(
                 'type' => 'info',
 //                'size' => 'large',
-		'url' => './sample/sample_host.csv',
-                'label' => '下载主机信息CSV样本',
+		'url' => './sample/sample_domain.csv',
+                'label' => '下载域名信息CSV样本',
             )
 ); ?></p>
 </div>

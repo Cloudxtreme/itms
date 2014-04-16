@@ -9,9 +9,9 @@
 
 		<?php echo $form->textFieldRow($model,'quota',array('class'=>'span5')); ?>
 
-		<?php echo $form->textFieldRow($model,'create_time',array('class'=>'span5')); ?>
+		<?php echo $form->datePickerRow($model,'create_time',array('options'=>array('language'=>'zh-CN','format'=>'yyyy-mm-dd'))); ?>
 
-		<?php echo $form->textFieldRow($model,'expire_time',array('class'=>'span5')); ?>
+		<?php echo $form->datePickerRow($model,'expire_time',array('options'=>array('language'=>'zh-CN','format'=>'yyyy-mm-dd'))); ?>
 
 		<?php echo $form->textFieldRow($model,'owner_id',array('class'=>'span5')); ?>
 

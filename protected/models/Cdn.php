@@ -66,14 +66,14 @@ class Cdn extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'quota' => 'Quota',
-			'create_time' => 'Create Time',
-			'expire_time' => 'Expire Time',
-			'owner_id' => 'Owner',
-			'provider_id' => 'Provider',
-			'price' => 'Price',
-			'memo' => 'Memo',
+			'name' => '云空间名',
+			'quota' => '配额',
+			'create_time' => '创建时间',
+			'expire_time' => '过期时间',
+			'owner_id' => '所有者',
+			'provider_id' => '提供商',
+			'price' => '年费',
+			'memo' => '备注',
 		);
 	}
 

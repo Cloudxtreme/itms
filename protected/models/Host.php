@@ -63,10 +63,10 @@ class Host extends CActiveRecord
 			array('ip', 'length', 'max'=>15),
 			array('ip', 'match', 'pattern'=>'/^(\d)+\.(\d)+\.(\d)+\.(\d)+$/', 'message'=>'必须是合法的IP地址.'),
 			array('location, login_user, login_pass', 'length', 'max'=>128),
-			array('id,create_time, expire_time,memo', 'safe'),
+			array('create_time, expire_time,memo', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('type, ip, location, login_user, login_pass, cores, memory, disk, data, bandwidth_type, bandwidth, create_time, expire_time, owner_id, provider_id, memo', 'safe', 'on'=>'search'),
+			array('id, type, ip, location, login_user, login_pass, cores, memory, disk, data, bandwidth_type, bandwidth, create_time, expire_time, owner_id, provider_id, memo', 'safe', 'on'=>'search'),
 		);
 	}
 
