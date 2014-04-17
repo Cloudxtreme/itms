@@ -375,5 +375,5 @@ font-family: "Microsoft Yahei", "微软雅黑", Tahoma, Helvetica, Arial, sans-s
   color: #ffffff;
 }
 .tile:hover {
-  outline: 3px #3a3a3a solid;
+  outline: 4px #2d89ef solid;
 }
